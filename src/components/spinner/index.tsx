@@ -1,11 +1,25 @@
-import { cn } from '@/lib/utils'
-import React from 'react'
+import { cn } from '@/lib/utils';
+import React from 'react';
+import { DynamicOptionsLoadingProps } from 'next/dynamic';
 
-type SpinnerProps = {
-  noPadding?: boolean
+interface SpinnerProps {
+  noPadding?: boolean;
 }
 
-export const Spinner = ({ noPadding }: SpinnerProps) => {
+// Option 1:  Combine both prop types using intersection
+type CombinedSpinnerProps = SpinnerProps & DynamicOptionsLoadingProps;
+
+// Option 2:  Make DynamicOptionsLoadingProps optional using extends
+// interface SpinnerProps extends Partial<DynamicOptionsLoadingProps> {
+//   noPadding?: boolean;
+// }
+
+export const Spinner: React.FC<CombinedSpinnerProps> = ({ isLoading, pastDelay, noPadding }: CombinedSpinnerProps) => {
+  // Check if loading is needed before rendering anything.
+  if (!isLoading && !pastDelay) {
+    return null; // Or return a default state or message if preferred
+  }
+
   return (
     <div className={cn('w-full flex justify-center', noPadding ? '' : 'py-10')}>
       <div role="status">
@@ -28,5 +42,5 @@ export const Spinner = ({ noPadding }: SpinnerProps) => {
         <span className="sr-only">Loading...</span>
       </div>
     </div>
-  )
-}
+  );
+};
