@@ -5,7 +5,6 @@ import React from 'react'
 
 type Props = {
   children: React.ReactNode
-  domain?: string
 }
 
 const OwnerLayout = async ({ children }: Props) => {
@@ -15,7 +14,7 @@ const OwnerLayout = async ({ children }: Props) => {
   return (
     <ChatProvider>
       <div className="flex h-screen w-full">
-        <SideBar domains={authenticated?.domain || []} />
+        <SideBar domains={authenticated.domain} />
         <div className="w-full h-screen flex flex-col pl-20 md:pl-4">
           {children}
         </div>
